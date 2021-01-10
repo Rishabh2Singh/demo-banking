@@ -3,9 +3,11 @@ package com.lti.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -13,20 +15,21 @@ import javax.persistence.Table;
 public class Beneficiary {
 
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name="seq_ben", initialValue=601, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_ben")
 	private int id;
 	
 	private String name;
 	
-	@ManyToOne(cascade= { CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne
 	@JoinColumn(name="account_no")
 	private Account account;
 	
 	private String type;
 	private String nickname;
 	
-	@ManyToOne(cascade= { CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(table="customer_id")
+	@ManyToOne
+	@JoinColumn(name="customer_id")
 	private InternetBanking customer;
 
 	public int getId() {

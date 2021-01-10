@@ -1,16 +1,23 @@
 package com.lti.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="tbl_accountHolderAdd")
 public class AccountHolderAdd {
 
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name="seq_add", initialValue=301, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_add")
 	private int id;
 	
 	private String address;
@@ -18,6 +25,12 @@ public class AccountHolderAdd {
 	private String city;
 	private String state;
 	private int pincode;
+	
+	@OneToOne(mappedBy="accountHolderAdd1", cascade= { CascadeType.PERSIST, CascadeType.MERGE})
+	private AccountHolder accountholdobj1;
+	
+	@OneToOne(mappedBy="accountHolderAdd2", cascade= { CascadeType.PERSIST, CascadeType.MERGE})
+	private AccountHolder accountholdobj2;
 	
 	public int getId() {
 		return id;
@@ -55,5 +68,18 @@ public class AccountHolderAdd {
 	public void setPincode(int pincode) {
 		this.pincode = pincode;
 	}
+	public AccountHolder getAccountholdobj1() {
+		return accountholdobj1;
+	}
+	public void setAccountholdobj1(AccountHolder accountholdobj1) {
+		this.accountholdobj1 = accountholdobj1;
+	}
+	public AccountHolder getAccountholdobj2() {
+		return accountholdobj2;
+	}
+	public void setAccountholdobj2(AccountHolder accountholdobj2) {
+		this.accountholdobj2 = accountholdobj2;
+	}
+	
 	
 }

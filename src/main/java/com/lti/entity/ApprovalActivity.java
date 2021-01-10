@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -16,25 +19,28 @@ import javax.persistence.Table;
 public class ApprovalActivity {
 
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name="seq_appact", initialValue=401, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_appact")
 	private int id;
 	
-	@ManyToOne(cascade= { CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne
 	@JoinColumn(name="account_no")
 	private Account account;
 	
-	@ManyToOne(cascade= { CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private InternetBanking customer;
 	
 	private String type;
 	private String approval;
 	
-	@ManyToOne(cascade= { CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne
 	@JoinColumn(name="admin_id")
 	private Admin admin;
 	
+	@Column(name="check_date")
 	private LocalDate date;
+	
 	private LocalTime time;
 	
 	public int getId() {
